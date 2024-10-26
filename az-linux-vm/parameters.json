@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_ts_ubuntu_vm_name": {
+            "value": null
+        },
+        "virtualNetworks_ts_ubuntu_vm_vnet_name": {
+            "value": null
+        },
+        "networkInterfaces_ts_ubuntu_vm251_z1_name": {
+            "value": null
+        },
+        "networkSecurityGroups_ts_ubuntu_vm_nsg_name": {
+            "value": null
+        }
+    }
+}

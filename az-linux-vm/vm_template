@@ -1,0 +1,97 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_ts_ubuntu_vm_name": {
+            "defaultValue": "ts-ubuntu-vm",
+            "type": "String"
+        },
+        "disks_ts_ubuntu_vm_disk1_f067d34f1212452b92368604bc343702_externalid": {
+            "defaultValue": "/subscriptions/6f2964c5-6241-4fb3-8ca1-bb0c8caf0b09/resourceGroups/main_resourcegroup/providers/Microsoft.Compute/disks/ts-ubuntu-vm_disk1_f067d34f1212452b92368604bc343702",
+            "type": "String"
+        },
+        "networkInterfaces_ts_ubuntu_vm251_z1_externalid": {
+            "defaultValue": "/subscriptions/6f2964c5-6241-4fb3-8ca1-bb0c8caf0b09/resourceGroups/main_resourcegroup/providers/Microsoft.Network/networkInterfaces/ts-ubuntu-vm251_z1",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('virtualMachines_ts_ubuntu_vm_name')]",
+            "location": "eastus",
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DC1ds_v3"
+                },
+                "additionalCapabilities": {
+                    "hibernationEnabled": false
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-minimal-focal",
+                        "sku": "minimal-20_04-lts-gen2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_ts_ubuntu_vm_name'), '_disk1_f067d34f1212452b92368604bc343702')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_ts_ubuntu_vm_disk1_f067d34f1212452b92368604bc343702_externalid')]"
+                        },
+                        "deleteOption": "Delete",
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": [],
+                    "diskControllerType": "SCSI"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_ts_ubuntu_vm_name')]",
+                    "adminUsername": "ecuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true,
+                        "patchSettings": {
+                            "patchMode": "ImageDefault",
+                            "assessmentMode": "ImageDefault"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "securityProfile": {
+                    "uefiSettings": {
+                        "secureBootEnabled": true,
+                        "vTpmEnabled": true
+                    },
+                    "securityType": "TrustedLaunch"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_ts_ubuntu_vm251_z1_externalid')]",
+                            "properties": {
+                                "deleteOption": "Detach"
+                            }
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}
