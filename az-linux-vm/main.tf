@@ -1,3 +1,4 @@
+/*
 terraform {
     required_providers {
         azure = {
@@ -7,13 +8,13 @@ terraform {
     }
 }
 
+
 variable "az_token" {}
 variable "tailscale_auth_key" {}
 
 provider "azure" {
     token = var.az_token
 }
-
 resource "azure_vm" "virtualm" {
     image = "ubuntu-20-04-x64"
     name = "nyc1-terraform-caddy"
@@ -22,6 +23,20 @@ resource "azure_vm" "virtualm" {
     ssh_keys = []
     # The following is injecting CloudInit directly using Tailscale resource using template tftpl
     userdata = templatefile("azuredeployment.tftpl", { tailscale_auth_key = var.tailscale_auth_key})
+}
+*/
+
+# VM on Azure via: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network
+resource "azurerm_resource_group" "takehome" {
+    name = "takehome-resources"
+    location = "East US"
+}
+
+#Creating a NSG
+resource "azurerm_network_security_group" "takehome_nsg" {
+    name = "takehome-nsg"
+    location = azurerm_resource_group.takehome.location
+    resource_group_name = azurerm_resource_group.takehome.name
 }
 
 # Creating a vnet
@@ -35,16 +50,10 @@ resource "azurerm_virtual_network" "takehome" {
 # Creating a subnet
 resource "azurerm_subnet" "takehome" {
     name = "takehome-subnet"
-    resource_group_name = azurerm_resource_group.takehome.name
-    virtual_network_name = azurerm_virtual_network.takehome.name
-    address_prefixes = ["10.0.0.0/24"]
-}
-
-#Creating a NSG
-resource "azurerm_network_security_group" "takehome_nsg" {
-    name = "takehome-nsg"
     location = azurerm_resource_group.takehome.location
     resource_group_name = azurerm_resource_group.takehome.name
+    virtual_network_name = azurerm_virtual_network.takehome.name
+    address_prefixes = ["10.1.0.0/24"]
 }
 
 # Set inbound security rule
@@ -62,4 +71,7 @@ resource "azurerm_network_security_rule" "takehome-nsg" {
     resource_group_name = azurerm_resource_group.takehome.name
     network_security_group_name = azurerm_network_security_group.takehome_nsg.name
 }
+
+
+
 
