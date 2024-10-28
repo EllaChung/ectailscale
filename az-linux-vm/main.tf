@@ -8,7 +8,6 @@ terraform {
     }
 }
 
-
 variable "az_token" {}
 variable "tailscale_auth_key" {}
 
