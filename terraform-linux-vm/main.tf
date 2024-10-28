@@ -37,7 +37,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   name                = "myNetworkSecurityGroup"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  /*
+  
   security_rule {
     name                       = "Tailscale"
     priority                   = 1010
@@ -49,8 +49,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
-  */
-  
+  /*
   security_rule {
     name                       = "SSH"
     priority                   = 1001
@@ -62,6 +61,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+  */
   
 }
 
