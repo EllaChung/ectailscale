@@ -7,9 +7,9 @@ locals {
 # Details of resource group location
 resource "azurerm_resource_group" "main" {
     location = "eastus"
-    type = "Microsoft.Network/networkSecurityGroups",
-    apiVersion = "2024-01-01",
-    name = [parameters("networkSecurityGroups_ts_ubuntu_vm_nsg_name")],
+    type = "Microsoft.Network/networkSecurityGroups"
+    apiVersion = "2024-01-01"
+    name = [parameters("networkSecurityGroups_ts_ubuntu_vm_nsg_name")]
             properties = {
                 securityRules = [
                     {
