@@ -15,3 +15,5 @@ Infrastructure as Code solution for creating a personal Tailnet, deploying a sub
 - "install-tailscale" is inteded for automated deployment of Tailscale for the Azure vm
     - "main.tf" is intended to be the main Terraform configuration file that would call the template with info on installing Tailscale
     - "tailscale-install.tftpl" is the Terraform template for the curl commands needed to install tailscale onto the ubuntu environment
+--- 
+- "terraform-linux-vm" should create a Linux VM in Azure via Terraform
