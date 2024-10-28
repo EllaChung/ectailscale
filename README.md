@@ -1,5 +1,7 @@
 # ectailscale
 Infrastructure as Code solution for creating a personal Tailnet, deploying a subnet router and Tailscale device with SSH enabled.
+---
+Disclaimer: I do NOT have prior background/experience using Tailscale, Azure, or Terraform. Manual configuration of Tailnet was successfully deployed.
 
 ### Main deployment environment used a MacOS and Android mobile device.
 ---
